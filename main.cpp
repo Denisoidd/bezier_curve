@@ -158,8 +158,8 @@ int main(int argc, char *argv[])
   igl::opengl::glfw::Viewer viewer; // create the 3d viewer
   Util curve_renderer(viewer);      // 3D renderer for drawing points, polylines, curves, ...
 
-  //test1(curve_renderer);
-  test2(curve_renderer);
+  test1(curve_renderer);
+  //test2(curve_renderer);
   //test3(curve_renderer);
   //test4(curve_renderer);
   //test5(curve_renderer);
