@@ -22,26 +22,21 @@ public:
  **/
   MatrixXd de_casteljau(const MatrixXd &V, double t)
   {
+    // Number of rows
     int nV = V.rows();
-    std::cout << "nV" << '\n';
-    std::cout << nV << '\n';       // number of points in the control polygon
-    int degree = V.rows() - 1; // degree of the curve
+    // Degree of the curve
+    int degree = V.rows() - 1;
+
+    // Condition of recursion function exit
     if (nV != 1){
-      std::cout << "I'm here 1" << '\n';
       MatrixXd Res(nV-1,3);
-      std::cout << "I'm here 2" << '\n';
       for (int i=0; i < nV-1; i++){
-        std::cout << "I'm here 3" << '\n';
-        std::cout << "Indexe in the beginning i - " << i << '\n';
         Res(i,0) = (1 - t) * V(i,0) + t * V(i+1,0);
         Res(i,1) = (1 - t) * V(i,1) + t * V(i+1,1);
         Res(i,2) = (1 - t) * V(i,2) + t * V(i+1,2);
-        std::cout << "Indexe in the end i - " << i  << '\n';
       }
-      std::cout << "I'm here 4" << '\n';
       return de_casteljau(Res,t);
     }
-    std::cout << "I'm here 5" << '\n';
     return V;
   }
 
