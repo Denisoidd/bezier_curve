@@ -64,30 +64,48 @@ public:
 	 */
   vector<MatrixXd> subdivide(const MatrixXd &V, double t)
   {
-    vector<MatrixXd> curves{}; // the result: store the 2 curves obtained after subdivision
-    MatrixXd division = de_casteljau(V,t);
+    // Store the 2 curves obtained after subdivision
+    vector<MatrixXd> curves{};
+
+    //Size of V
     int nV = V.rows();
+    //Storing all the results
     vector<MatrixXd> result;
+
+    //Result of this iteration
     MatrixXd res_cur(nV-1,3);
+
+    //Creating the first points
     for (int i = 0; i < nV-1; i++){
       res_cur(i,0) = (1 - t) * V(i,0) + t * V(i+1,0);
       res_cur(i,1) = (1 - t) * V(i,1) + t * V(i+1,1);
       res_cur(i,2) = (1 - t) * V(i,2) + t * V(i+1,2);
     }
-    std::cout << "Result" << '\n';
-    result.at(0) = res_cur;
-    std::cout << result.at(0) << '\n';
-    std::cout << "Try to get access to result(0)(0,0)" << '\n';
+    result.push_back(res_cur);
+
+    //Creating other iterations
     for (int i = 1; i < nV-1; i++){
       MatrixXd res_cur(nV-1-i,3);
+      MatrixXd temp = result.at(i-1);
       for (int j = 0; j < nV-1-i; j++){
-        res_cur(i,0) = (1 - t) * result.at(i-1)(i,0) + t * result.at(i-1)(i+1,0);
-        res_cur(i,2) = (1 - t) * result.at(i-1)(i,2) + t * result.at(i-1)(i+1,2);
-        res_cur(i,1) = (1 - t) * result.at(i-1)(i,1) + t * result.at(i-1)(i+1,1);
+        res_cur(j,0) = (1 - t) * temp(j,0) + t * temp(j+1,0);
+        res_cur(j,2) = (1 - t) * temp(j,2) + t * temp(j+1,2);
+        res_cur(j,1) = (1 - t) * temp(j,1) + t * temp(j+1,1);
       }
-      result.at(i) = res_cur;
+      result.push_back(res_cur);
     }
 
+    //Curve creation
+    MatrixXd curve1(nV,3), curve2(nV,3);
+    curve1.row(0) = V.row(0);
+    curve2.row(0) = V.row(nV-1);
+    for (int i=1; i < nV; i++){
+      MatrixXd temp = result.at(i-1);
+      curve1.row(i) = temp.row(0);
+      curve2.row(i) = temp.row(temp.rows()-1);
+    }
+    curves.push_back(curve1);
+    curves.push_back(curve2);
     return curves;
   }
 
