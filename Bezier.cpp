@@ -118,17 +118,13 @@ public:
 	 */
   MatrixXd subdivision_plot(const MatrixXd &V, int levels)
   {
-    std::cout << "computing recursive subdivision " << std::endl;
-    std::cout << "level is " << levels << '\n';
+    //2 ^ levels matrix we will have to concatenate in the end
     int degree;
     degree = std::pow(2, levels);
+
     if (levels > 0){
       MatrixXd res(V.rows()*degree,3);
       std::vector<MatrixXd> v = this -> subdivide(V,0.5);
-      std::cout << "print left matrix" << '\n';
-      std::cout << v[0] << '\n';
-      std::cout << "print right matrix" << '\n';
-      std::cout << v[1] << '\n';
       levels--;
       res << subdivision_plot(v[0],levels),subdivision_plot(v[1],levels);
       return res;
