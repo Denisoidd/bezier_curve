@@ -1,4 +1,4 @@
 # Bezier Curve implementation
 
 ### C++, libiGL, Eigen
-Implemented method de Casteljau and also subdivision of Bezier curve.
+Implemented subdivision, rendering and de Casteljau methods of Bezier curve.
